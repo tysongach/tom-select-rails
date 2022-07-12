@@ -1,5 +1,5 @@
 import Sifter from '@orchidjs/sifter/lib/sifter';
-import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateCallback, TomItem, TomSettings, TomTemplateNames } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter } from './types/index';
 declare const TomSelect_base: {
     new (): {
         [x: string]: any;
@@ -50,6 +50,7 @@ export default class TomSelect extends TomSelect_base {
     isInputHidden: boolean;
     isSetup: boolean;
     ignoreFocus: boolean;
+    ignoreHover: boolean;
     hasOptions: boolean;
     currentResults?: ReturnType<Sifter['search']>;
     lastValue: string;
@@ -128,6 +129,12 @@ export default class TomSelect extends TomSelect_base {
      *
      */
     onInput(e: MouseEvent | KeyboardEvent): void;
+    /**
+     * Triggered when the user rolls over
+     * an option in the autocomplete dropdown menu.
+     *
+     */
+    onOptionHover(evt: MouseEvent | KeyboardEvent, option: HTMLElement): void;
     /**
      * Triggered on <input> focus.
      *
@@ -231,7 +238,7 @@ export default class TomSelect extends TomSelect_base {
      * of available options.
      *
      */
-    setActiveOption(option: null | HTMLElement): void;
+    setActiveOption(option: null | HTMLElement, scroll?: boolean): void;
     /**
      * Sets the dropdown_content scrollTop to display the option
      *
@@ -375,7 +382,13 @@ export default class TomSelect extends TomSelect_base {
     /**
      * Clears all options.
      */
-    clearOptions(): void;
+    clearOptions(filter?: TomClearFilter): void;
+    /**
+     * Used by clearOptions() to decide whether or not an option should be removed
+     * Return true to keep an option, false to remove
+     *
+     */
+    clearFilter(option: TomOption, value: string): boolean;
     /**
      * Returns the dom element of the option
      * matching the given value.
@@ -485,6 +498,10 @@ export default class TomSelect extends TomSelect_base {
      *
      */
     deleteSelection(e: KeyboardEvent): boolean;
+    /**
+     * Return true if the items should be deleted
+     */
+    shouldDelete(items: TomItem[], evt: MouseEvent | KeyboardEvent): boolean;
     /**
      * Selects the previous / next item (depending on the `direction` argument).
      *

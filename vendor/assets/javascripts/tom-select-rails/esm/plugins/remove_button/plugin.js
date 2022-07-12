@@ -1,15 +1,15 @@
 /**
-* Tom Select v2.0.3
+* Tom Select v2.1.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
-// https://github.com/andrewrk/node-diacritics/blob/master/index.js
+// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
 const latin_convert = {
   'æ': 'ae',
   'ⱥ': 'a',
   'ø': 'o'
 };
-new RegExp(Object.keys(latin_convert).join('|'), 'g');
+new RegExp(Object.keys(latin_convert).join('|'), 'gu');
 
 /**
  * Return a dom element from either a dom query string, jQuery object, a dom element or html string
@@ -122,9 +122,9 @@ function plugin (userOptions) {
     var orig_render_item = self.settings.render.item;
 
     self.settings.render.item = (data, escape) => {
-      var rendered = getDom(orig_render_item.call(self, data, escape));
+      var item = getDom(orig_render_item.call(self, data, escape));
       var close_button = getDom(html);
-      rendered.appendChild(close_button);
+      item.appendChild(close_button);
       addEvent(close_button, 'mousedown', evt => {
         preventDefault(evt, true);
       });
@@ -132,12 +132,12 @@ function plugin (userOptions) {
         // propagating will trigger the dropdown to show for single mode
         preventDefault(evt, true);
         if (self.isLocked) return;
-        var value = rendered.dataset.value;
-        self.removeItem(value);
+        if (!self.shouldDelete([item], evt)) return;
+        self.removeItem(item);
         self.refreshOptions(false);
         self.inputState();
       });
-      return rendered;
+      return item;
     };
   });
 }

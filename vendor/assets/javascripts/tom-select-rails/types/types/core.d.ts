@@ -6,7 +6,7 @@ export interface TomInput extends HTMLElement {
     required: boolean;
     value: string;
     type: string;
-    checkValidity: () => boolean;
+    validity: ValidityState;
 }
 export declare type TomArgObject = {
     silent?: boolean;
@@ -42,3 +42,4 @@ export declare type TomTemplates = {
     'no_more_results': TomTemplateNull;
 };
 export declare type TomTemplateNames = keyof TomTemplates;
+export declare type TomClearFilter = (option: TomOption, value: string) => boolean;

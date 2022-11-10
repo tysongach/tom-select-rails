@@ -1,4 +1,4 @@
-import Sifter from '@orchidjs/sifter/lib/sifter';
+import { Sifter } from '@orchidjs/sifter';
 import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter } from './types/index';
 declare const TomSelect_base: {
     new (): {
@@ -294,7 +294,7 @@ export default class TomSelect extends TomSelect_base {
      *
      * @return {function}
      */
-    getScoreFunction(query: string): (data: {}) => any;
+    getScoreFunction(query: string): (data: {}) => number;
     /**
      * Returns search options for sifter (the system
      * for scoring and sorting results).
@@ -394,7 +394,7 @@ export default class TomSelect extends TomSelect_base {
      * matching the given value.
      *
      */
-    getOption(value: null | string, create?: boolean): null | HTMLElement;
+    getOption(value: undefined | null | boolean | string | number, create?: boolean): null | HTMLElement;
     /**
      * Returns the dom element of the next or previous dom element of the same type
      * Note: adjacent options may not be adjacent DOM elements (optgroups)
@@ -434,7 +434,7 @@ export default class TomSelect extends TomSelect_base {
      * to the item list.
      *
      */
-    createItem(input?: null | string, triggerDropdown?: boolean, callback?: TomCreateCallback): boolean;
+    createItem(input?: null | string, callback?: TomCreateCallback): boolean;
     /**
      * Re-renders the selected item lists.
      */
@@ -562,8 +562,8 @@ export default class TomSelect extends TomSelect_base {
      */
     render(templateName: TomTemplateNames, data?: any): null | HTMLElement;
     /**
-     * _render() can be called directly when we know we don't want to hit the cache
-     * return type could be null for some templates, we need https://github.com/microsoft/TypeScript/issues/33014
+     * Type guarded rendering
+     *
      */
     _render(templateName: TomTemplateNames, data?: any): HTMLElement;
     /**

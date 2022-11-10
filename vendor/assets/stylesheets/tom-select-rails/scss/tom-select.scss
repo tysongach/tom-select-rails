@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v2.1.0)
+ * tom-select.css (v2.2.0)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -77,6 +77,12 @@ $select-spinner-size:							30px !default;
 $select-spinner-border-size:					5px !default;
 $select-spinner-border-color:					$select-color-border !default;
 
+:root{
+	--ts-pr-clear-button:						0;
+	--ts-pr-caret:								0;
+	--ts-pr-min:								.75rem;
+}
+
 @mixin selectize-vertical-gradient($color-top, $color-bottom) {
     background-color: mix($color-top, $color-bottom, 60%);
     background-image: linear-gradient(to bottom, $color-top, $color-bottom);
@@ -92,13 +98,16 @@ $select-spinner-border-color:					$select-color-border !default;
 	}
 }
 
+.#{$select-ns}-control {
+	padding-right:	max( var(--ts-pr-min), calc( var(--ts-pr-clear-button) + var(--ts-pr-caret)) ) !important;
+}
 
 @mixin ts-caret(){
 
 	.#{$select-ns}-wrapper.single{
 
 		.#{$select-ns}-control {
-			padding-right: 2rem;
+			--ts-pr-caret: 2rem;
 
 			&:after {
 				content: ' ';

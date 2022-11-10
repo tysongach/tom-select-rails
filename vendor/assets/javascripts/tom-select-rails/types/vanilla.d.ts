@@ -44,7 +44,7 @@ export declare const castAsArray: (arg: any) => Array<any>;
  * Stops at wrapper
  *
  */
-export declare const parentMatch: (target: null | HTMLElement, selector: string, wrapper?: HTMLElement | undefined) => HTMLElement | void;
+export declare const parentMatch: (target: null | HTMLElement, selector: string, wrapper?: HTMLElement) => HTMLElement | void;
 /**
  * Get the first or last item from an array
  *
@@ -62,7 +62,7 @@ export declare const isEmptyObject: (obj: object) => boolean;
  * Get the index of an element amongst sibling nodes of the same type
  *
  */
-export declare const nodeIndex: (el: null | Element, amongst?: string | undefined) => number;
+export declare const nodeIndex: (el: null | Element, amongst?: string) => number;
 /**
  * Set attributes of an element
  *

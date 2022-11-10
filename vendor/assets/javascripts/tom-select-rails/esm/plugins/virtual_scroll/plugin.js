@@ -1,17 +1,21 @@
 /**
-* Tom Select v2.1.0
+* Tom Select v2.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
-// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
+/*! @orchidjs/unicode-variants | https://github.com/orchidjs/unicode-variants | Apache License (v2) */
+const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}]'; // \u{2bc}
+/** @type {TUnicodeMap} */
+
 const latin_convert = {
   'æ': 'ae',
   'ⱥ': 'a',
-  'ø': 'o'
+  'ø': 'o',
+  '⁄': '/',
+  '∕': '/'
 };
-new RegExp(Object.keys(latin_convert).join('|'), 'gu');
+new RegExp(Object.keys(latin_convert).join('|') + '|' + accent_pat, 'gu');
 
-// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
 /**
  * Iterates over arrays and hashes.
  *
@@ -116,7 +120,7 @@ function plugin () {
 
       if (self.activeOption) {
         var selectable = self.selectable();
-        var index = [...selectable].indexOf(self.activeOption);
+        var index = Array.from(selectable).indexOf(self.activeOption);
 
         if (index >= selectable.length - 2) {
           return true;
@@ -200,8 +204,12 @@ function plugin () {
   self.hook('instead', 'loadCallback', (options, optgroups) => {
     if (!loading_more) {
       self.clearOptions(clearFilter);
-    } else if (load_more_opt && options.length > 0) {
-      load_more_opt.dataset.value = options[0][self.settings.valueField];
+    } else if (load_more_opt) {
+      const first_option = options[0];
+
+      if (first_option !== undefined) {
+        load_more_opt.dataset.value = first_option[self.settings.valueField];
+      }
     }
 
     orig_loadCallback.call(self, options, optgroups);

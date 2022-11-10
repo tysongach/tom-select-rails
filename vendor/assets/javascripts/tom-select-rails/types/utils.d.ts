@@ -49,7 +49,7 @@ export declare const getSelection: (input: HTMLInputElement) => {
  */
 export declare const preventDefault: (evt?: Event, stop?: boolean) => void;
 /**
- * Prevent default
+ * Add event helper
  *
  */
 export declare const addEvent: (target: EventTarget, type: string, callback: EventListenerOrEventListenerObject, options?: object) => void;

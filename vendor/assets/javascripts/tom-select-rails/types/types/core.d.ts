@@ -43,3 +43,6 @@ export declare type TomTemplates = {
 };
 export declare type TomTemplateNames = keyof TomTemplates;
 export declare type TomClearFilter = (option: TomOption, value: string) => boolean;
+export declare type RecursivePartial<T> = {
+    [P in keyof T]?: RecursivePartial<T[P]>;
+};

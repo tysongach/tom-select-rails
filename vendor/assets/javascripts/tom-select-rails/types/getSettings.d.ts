@@ -1,3 +1,3 @@
-import { TomSettings } from './types/index';
+import { TomSettings, RecursivePartial } from './types/index';
 import { TomInput } from './types/index';
-export default function getSettings(input: TomInput, settings_user: Partial<TomSettings>): TomSettings;
+export default function getSettings(input: TomInput, settings_user: RecursivePartial<TomSettings>): TomSettings;

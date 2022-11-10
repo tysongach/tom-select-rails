@@ -1,5 +1,5 @@
 import { Sifter } from '@orchidjs/sifter';
-import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter, RecursivePartial } from './types/index';
 declare const TomSelect_base: {
     new (): {
         [x: string]: any;
@@ -67,7 +67,7 @@ export default class TomSelect extends TomSelect_base {
         [key: string]: boolean;
     };
     items: string[];
-    constructor(input_arg: string | TomInput, user_settings: Partial<TomSettings>);
+    constructor(input_arg: string | TomInput, user_settings: RecursivePartial<TomSettings>);
     /**
      * set up event bindings.
      *

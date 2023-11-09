@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.2.2
+* Tom Select v2.3.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -71,30 +71,24 @@ new RegExp(Object.keys(latin_convert).join('|') + '|' + accent_pat, 'gu');
  *
  * param query should be {}
  */
-
 const getDom = query => {
   if (query.jquery) {
     return query[0];
   }
-
   if (query instanceof HTMLElement) {
     return query;
   }
-
   if (isHtmlString(query)) {
     var tpl = document.createElement('template');
     tpl.innerHTML = query.trim(); // Never return a text node of whitespace as the result
-
     return tpl.content.firstChild;
   }
-
   return document.querySelector(query);
 };
 const isHtmlString = arg => {
   if (typeof arg === 'string' && arg.indexOf('<') > -1) {
     return true;
   }
-
   return false;
 };
 
@@ -112,15 +106,14 @@ const isHtmlString = arg => {
  *   1         -> '1'
  *
  */
+
 /**
  * Prevent default
  *
  */
-
 const preventDefault = (evt, stop = false) => {
   if (evt) {
     evt.preventDefault();
-
     if (stop) {
       evt.stopPropagation();
     }
@@ -141,6 +134,7 @@ const preventDefault = (evt, stop = false) => {
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin (userOptions) {
   const self = this;
   const options = Object.assign({
@@ -156,14 +150,12 @@ function plugin (userOptions) {
   self.on('initialize', () => {
     var header = getDom(options.html(options));
     var close_link = header.querySelector('.' + options.closeClass);
-
     if (close_link) {
       close_link.addEventListener('click', evt => {
         preventDefault(evt, true);
         self.close();
       });
     }
-
     self.dropdown.insertBefore(header, self.dropdown.firstChild);
   });
 }

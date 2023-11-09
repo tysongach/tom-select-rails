@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.2.2
+* Tom Select v2.3.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -17,6 +17,7 @@
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin (userOptions) {
   const self = this;
   const options = Object.assign({
@@ -28,10 +29,8 @@ function plugin (userOptions) {
     if (!self.isFocused) {
       return;
     }
-
     if (self.control_input.value.trim() === '') {
       var option = self.options[value];
-
       if (option) {
         self.setTextboxValue(options.text.call(self, option));
       }

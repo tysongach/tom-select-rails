@@ -14,7 +14,7 @@
  */
 import TomSelect from '../../tom-select';
 import { TomOption } from '../../types/index';
-declare type TPluginOptions = {
+type TPluginOptions = {
     text?: (option: TomOption) => string;
 };
 export default function (this: TomSelect, userOptions: TPluginOptions): void;

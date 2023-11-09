@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.2.2
+* Tom Select v2.3.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -71,30 +71,24 @@ new RegExp(Object.keys(latin_convert).join('|') + '|' + accent_pat, 'gu');
  *
  * param query should be {}
  */
-
 const getDom = query => {
   if (query.jquery) {
     return query[0];
   }
-
   if (query instanceof HTMLElement) {
     return query;
   }
-
   if (isHtmlString(query)) {
     var tpl = document.createElement('template');
     tpl.innerHTML = query.trim(); // Never return a text node of whitespace as the result
-
     return tpl.content.firstChild;
   }
-
   return document.querySelector(query);
 };
 const isHtmlString = arg => {
   if (typeof arg === 'string' && arg.indexOf('<') > -1) {
     return true;
   }
-
   return false;
 };
 
@@ -112,6 +106,7 @@ const isHtmlString = arg => {
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin (userOptions) {
   const self = this;
   const options = Object.assign({
@@ -124,16 +119,11 @@ function plugin (userOptions) {
   self.on('initialize', () => {
     var button = getDom(options.html(options));
     button.addEventListener('click', evt => {
-      if (self.isDisabled) {
-        return;
-      }
-
+      if (self.isLocked) return;
       self.clear();
-
       if (self.settings.mode === 'single' && self.settings.allowEmptyOption) {
         self.addItem('');
       }
-
       evt.preventDefault();
       evt.stopPropagation();
     });

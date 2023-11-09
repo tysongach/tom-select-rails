@@ -20,6 +20,7 @@ declare const _default: {
     selectOnTab: boolean;
     preload: null;
     allowEmptyOption: boolean;
+    refreshThrottle: number;
     loadThrottle: number;
     loadingClass: string;
     dataAttr: null;

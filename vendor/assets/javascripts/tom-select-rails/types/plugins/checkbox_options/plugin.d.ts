@@ -1,5 +1,5 @@
 /**
- * Plugin: "restore_on_backspace" (Tom Select)
+ * Plugin: "checkbox_options" (Tom Select)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -13,4 +13,5 @@
  *
  */
 import TomSelect from '../../tom-select';
-export default function (this: TomSelect): void;
+import { CBOptions } from './types';
+export default function (this: TomSelect, userOptions: CBOptions): void;

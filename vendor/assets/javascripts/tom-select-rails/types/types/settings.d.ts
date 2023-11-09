@@ -1,7 +1,7 @@
 import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates, TomOption } from './index';
 import { TPluginItem, TPluginHash } from '../contrib/microplugin';
-import * as SifterTypes from '@orchidjs/sifter/lib/types';
-export declare type TomSettings = {
+import * as SifterTypes from '@orchidjs/sifter/dist/types/types';
+export type TomSettings = {
     options?: any[];
     optgroups?: any[];
     items?: string[];
@@ -25,6 +25,7 @@ export declare type TomSettings = {
     preload: boolean | string;
     allowEmptyOption: boolean;
     closeAfterSelect: boolean;
+    refreshThrottle: number;
     loadThrottle: number;
     loadingClass: string;
     dataAttr: string;

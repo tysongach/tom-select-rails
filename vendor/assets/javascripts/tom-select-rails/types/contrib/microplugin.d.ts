@@ -13,10 +13,10 @@
  *
  * @author Brian Reavis <brian@thirdroute.com>
  */
-declare type TSettings = {
+type TSettings = {
     [key: string]: any;
 };
-declare type TPlugins = {
+type TPlugins = {
     names: string[];
     settings: TSettings;
     requested: {
@@ -26,11 +26,11 @@ declare type TPlugins = {
         [key: string]: any;
     };
 };
-export declare type TPluginItem = {
+export type TPluginItem = {
     name: string;
     options: {};
 };
-export declare type TPluginHash = {
+export type TPluginHash = {
     [key: string]: {};
 };
 export default function MicroPlugin(Interface: any): {

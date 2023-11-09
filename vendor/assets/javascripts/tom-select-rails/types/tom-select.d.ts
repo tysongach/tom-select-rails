@@ -42,6 +42,7 @@ export default class TomSelect extends TomSelect_base {
     sifter: Sifter;
     isOpen: boolean;
     isDisabled: boolean;
+    isReadOnly: boolean;
     isRequired: boolean;
     isInvalid: boolean;
     isValid: boolean;
@@ -67,6 +68,7 @@ export default class TomSelect extends TomSelect_base {
         [key: string]: boolean;
     };
     items: string[];
+    private refreshTimeout;
     constructor(input_arg: string | TomInput, user_settings: RecursivePartial<TomSettings>);
     /**
      * set up event bindings.
@@ -129,6 +131,7 @@ export default class TomSelect extends TomSelect_base {
      *
      */
     onInput(e: MouseEvent | KeyboardEvent): void;
+    _onInput(): void;
     /**
      * Triggered when the user rolls over
      * an option in the autocomplete dropdown menu.
@@ -264,17 +267,6 @@ export default class TomSelect extends TomSelect_base {
      */
     inputState(): void;
     /**
-     * Hides the input element out of view, while
-     * retaining its focus.
-     * @deprecated 1.3
-     */
-    hideInput(): void;
-    /**
-     * Restores input visibility.
-     * @deprecated 1.3
-     */
-    showInput(): void;
-    /**
      * Get the input value
      */
     inputValue(): string;
@@ -305,7 +297,7 @@ export default class TomSelect extends TomSelect_base {
     getSearchOptions(): {
         fields: string[];
         conjunction: string;
-        sort: string | import("@orchidjs/sifter/lib/types").SortFn | import("@orchidjs/sifter/lib/types").Sort[];
+        sort: string | import("@orchidjs/sifter/dist/types/types").SortFn | import("@orchidjs/sifter/dist/types/types").Sort[];
         nesting: boolean;
     };
     /**
@@ -540,6 +532,10 @@ export default class TomSelect extends TomSelect_base {
      */
     unlock(): void;
     /**
+     * Disable or enable user input on the control
+     */
+    setLocked(lock?: boolean): void;
+    /**
      * Disables user input on the control completely.
      * While disabled, it cannot receive focus.
      */
@@ -549,6 +545,8 @@ export default class TomSelect extends TomSelect_base {
      * to focus and user input.
      */
     enable(): void;
+    setDisabled(disabled: boolean): void;
+    setReadOnly(isReadOnly: boolean): void;
     /**
      * Completely destroys the control and
      * unbinds all event listeners so that it can

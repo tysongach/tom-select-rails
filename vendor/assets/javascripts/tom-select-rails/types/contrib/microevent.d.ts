@@ -7,7 +7,7 @@
  *
  * @author Jerome Etienne (https://github.com/jeromeetienne)
  */
-declare type TCallback = (...args: any) => any;
+type TCallback = (...args: any) => any;
 export default class MicroEvent {
     _events: {
         [key: string]: TCallback[];

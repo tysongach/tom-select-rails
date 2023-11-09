@@ -1,4 +1,4 @@
-export declare type CBOptions = {
+export type CBOptions = {
     className?: string;
     title?: string;
     html?: (data: CBOptions) => string;

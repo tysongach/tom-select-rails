@@ -1,4 +1,4 @@
-export declare type DHOptions = {
+export type DHOptions = {
     title?: string;
     headerClass?: string;
     titleRowClass?: string;

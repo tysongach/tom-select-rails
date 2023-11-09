@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import TomSelect from './tom-select';
 import { TomLoadCallback } from './types/index';
 /**
@@ -22,6 +23,10 @@ export declare const get_hash: (value: boolean | string | number) => string;
  */
 export declare const escape_html: (str: string) => string;
 /**
+ * use setTimeout if timeout > 0
+ */
+export declare const timeout: (fn: () => void, timeout: number) => NodeJS.Timeout | null;
+/**
  * Debounce the user provided load function
  *
  */
@@ -38,6 +43,8 @@ export declare const debounce_events: (self: TomSelect, types: string[], fn: () 
  *   - start
  *   - length
  *
+ * Note: "selectionStart, selectionEnd ... apply only to inputs of types text, search, URL, tel and password"
+ * 	- https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
  */
 export declare const getSelection: (input: HTMLInputElement) => {
     start: number;

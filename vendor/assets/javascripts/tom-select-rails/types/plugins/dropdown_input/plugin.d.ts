@@ -12,5 +12,5 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select';
+import type TomSelect from '../../tom-select.ts';
 export default function (this: TomSelect): void;

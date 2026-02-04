@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tom-select-rails (2.4.3)
+    tom-select-rails (2.4.5)
 
 GEM
   remote: https://rubygems.org/
@@ -38,6 +38,7 @@ PLATFORMS
   arm64-darwin-21
   arm64-darwin-23
   arm64-darwin-24
+  arm64-darwin-25
 
 DEPENDENCIES
   rake (~> 13.0)

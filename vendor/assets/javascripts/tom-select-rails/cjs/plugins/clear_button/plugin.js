@@ -21,8 +21,10 @@ function default_1(userOptions) {
     const options = Object.assign({
         className: 'clear-button',
         title: 'Clear All',
+        role: 'button',
+        tabindex: 0,
         html: (data) => {
-            return `<div class="${data.className}" title="${data.title}">&#10799;</div>`;
+            return `<div class="${data.className}" title="${data.title}" role="${data.role}" tabindex="${data.tabindex}">&times;</div>`;
         }
     }, userOptions);
     self.on('initialize', () => {

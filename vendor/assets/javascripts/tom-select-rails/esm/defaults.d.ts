@@ -9,6 +9,7 @@ declare const _default: {
     create: null;
     createOnBlur: boolean;
     createFilter: null;
+    clearAfterSelect: boolean;
     highlight: boolean;
     openOnFocus: boolean;
     shouldOpen: null;

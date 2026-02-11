@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.4.5
+* Tom Select v2.5.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -154,6 +154,7 @@ function plugin () {
   self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
   self.hook('before', 'setup', () => {
+    var _self$input;
     self.focus_node = self.control;
     addClasses(self.control_input, 'dropdown-input');
     const div = getDom('<div class="dropdown-input-wrap">');
@@ -164,6 +165,15 @@ function plugin () {
     const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />');
     placeholder.placeholder = self.settings.placeholder || '';
     self.control.append(placeholder);
+    /**
+     * TomSelect renders a custom control with a focusable <input class="items-placeholder">.
+     * The source <select>'s aria-label is not automatically propagated to that input,
+     * which triggers "Missing form label" accessibility warnings.
+     * This helper copies the label from the <select> onto the generated input.
+     */
+    const label = (_self$input = self.input) == null ? void 0 : _self$input.getAttribute('aria-label');
+    if (!label) return;
+    placeholder.setAttribute('aria-label', label);
   });
   self.on('initialize', () => {
     // set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input

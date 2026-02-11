@@ -2,7 +2,7 @@
  * Tom Select Bootstrap 5
  */
 /**
- * tom-select.css (v2.4.5)
+ * tom-select.css (v2.5.1)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -102,7 +102,7 @@
   margin: 0px 4px 0px -2px !important;
 }
 .disabled .ts-control {
-  opacity: 0.5;
+  opacity: 1;
   background-color: var(--bs-secondary-bg);
 }
 .input-hidden .ts-control > input {
@@ -478,6 +478,14 @@
   display: flex;
   align-items: center;
 }
+.ts-control input::-ms-input-placeholder {
+  color: var(--bs-secondary-color, #a7aeb8);
+  opacity: 1;
+}
+.ts-control input::placeholder {
+  color: var(--bs-secondary-color, #a7aeb8);
+  opacity: 1;
+}
 
 .ts-wrapper.is-invalid,
 .was-validated .invalid,
@@ -548,7 +556,6 @@
 }
 .input-group-sm > .ts-wrapper.has-items .ts-control, .ts-wrapper.form-select-sm.has-items .ts-control, .ts-wrapper.form-control-sm.has-items .ts-control {
   font-size: 0.875rem;
-  padding-bottom: 0;
 }
 .input-group-sm > .ts-wrapper.multi.has-items .ts-control, .ts-wrapper.form-select-sm.multi.has-items .ts-control, .ts-wrapper.form-control-sm.multi.has-items .ts-control {
   padding-top: calc((calc(1.5em + 0.5rem + calc(var(--bs-border-width) * 2)) - 1.5 * 0.875rem - calc((var(--bs-border-width) + 1px) * 2)) / 2) !important;
@@ -607,5 +614,11 @@
 .input-group > .ts-wrapper:not(:last-child) > .ts-control {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.form-select .ts-dropdown,
+.form-select .ts-control,
+.form-select .ts-control input {
+  color: var(--bs-body-color);
 }
 /*# sourceMappingURL=tom-select.bootstrap5.css.map */

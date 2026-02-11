@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tom-select-rails (2.4.5)
+    tom-select-rails (2.5.1)
 
 GEM
   remote: https://rubygems.org/

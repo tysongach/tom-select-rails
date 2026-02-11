@@ -22,6 +22,7 @@ function default_1() {
     const self = this;
     self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
     self.hook('before', 'setup', () => {
+        var _a;
         self.focus_node = self.control;
         (0, vanilla_ts_1.addClasses)(self.control_input, 'dropdown-input');
         const div = (0, vanilla_ts_1.getDom)('<div class="dropdown-input-wrap">');
@@ -31,6 +32,16 @@ function default_1() {
         const placeholder = (0, vanilla_ts_1.getDom)('<input class="items-placeholder" tabindex="-1" />');
         placeholder.placeholder = self.settings.placeholder || '';
         self.control.append(placeholder);
+        /**
+         * TomSelect renders a custom control with a focusable <input class="items-placeholder">.
+         * The source <select>'s aria-label is not automatically propagated to that input,
+         * which triggers "Missing form label" accessibility warnings.
+         * This helper copies the label from the <select> onto the generated input.
+         */
+        const label = (_a = self.input) === null || _a === void 0 ? void 0 : _a.getAttribute('aria-label');
+        if (!label)
+            return;
+        placeholder.setAttribute('aria-label', label);
     });
     self.on('initialize', () => {
         // set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input

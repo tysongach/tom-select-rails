@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.4.5
+* Tom Select v2.5.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -1502,6 +1502,7 @@
 	  create: null,
 	  createOnBlur: false,
 	  createFilter: null,
+	  clearAfterSelect: false,
 	  highlight: true,
 	  openOnFocus: true,
 	  shouldOpen: null,
@@ -1889,6 +1890,8 @@
 	      });
 	    }
 	    wrapper.style.width = input.style.width;
+	    wrapper.style.minWidth = input.style.minWidth;
+	    wrapper.style.maxWidth = input.style.maxWidth;
 	    if (self.plugins.names.length) {
 	      const classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
 	      addClasses([wrapper, dropdown], classes_plugins);
@@ -2130,7 +2133,8 @@
 	  sync(get_settings = true) {
 	    const self = this;
 	    const settings = get_settings ? getSettings(self.input, {
-	      delimiter: self.settings.delimiter
+	      delimiter: self.settings.delimiter,
+	      allowEmptyOption: self.settings.allowEmptyOption
 	    }) : self.settings;
 	    self.setupOptions(settings.options, settings.optgroups);
 	    self.setValue(settings.items || [], true); // silent prevents recursion
@@ -2441,6 +2445,8 @@
 	      self.createItem(null, () => {
 	        if (self.settings.closeAfterSelect) {
 	          self.close();
+	        } else if (self.settings.clearAfterSelect) {
+	          self.setTextboxValue();
 	        }
 	      });
 	    } else {
@@ -2450,6 +2456,8 @@
 	        self.addItem(value);
 	        if (self.settings.closeAfterSelect) {
 	          self.close();
+	        } else if (self.settings.clearAfterSelect) {
+	          self.setTextboxValue();
 	        }
 	        if (!self.settings.hideSelected && evt.type && /click/.test(evt.type)) {
 	          self.setActiveOption(option);
@@ -2881,6 +2889,11 @@
 	    // perform search
 	    if (query !== self.lastQuery) {
 	      self.lastQuery = query;
+	      // temp fix for https://github.com/orchidjs/tom-select/issues/987
+	      // UI crashed when more than 30 same chars in a row, prevent search and return empt result
+	      if (/(.)\1{15,}/.test(query)) {
+	        query = '';
+	      }
 	      result = self.sifter.search(query, Object.assign(options, {
 	        score: calculateScore
 	      }));
@@ -3443,6 +3456,11 @@
 	        } else if (!self.isPending) {
 	          self.positionDropdown();
 	        }
+
+	        //remove input value when enabled
+	        if (self.settings.clearAfterSelect) {
+	          self.setTextboxValue();
+	        }
 	        self.trigger('item_add', hashed, item);
 	        if (!self.isPending) {
 	          self.updateOriginalInput({
@@ -3838,7 +3856,7 @@
 	    const values = items.map(item => item.dataset.value);
 
 	    // allow the callback to abort
-	    if (!values.length || typeof this.settings.onDelete === 'function' && this.settings.onDelete(values, evt) === false) {
+	    if (!values.length || typeof this.settings.onDelete === 'function' && this.settings.onDelete.call(this, values, evt) === false) {
 	      return false;
 	    }
 	    return true;
@@ -4216,6 +4234,7 @@
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
 	  self.hook('before', 'setup', () => {
+	    var _self$input;
 	    self.focus_node = self.control;
 	    addClasses(self.control_input, 'dropdown-input');
 	    const div = getDom('<div class="dropdown-input-wrap">');
@@ -4226,6 +4245,15 @@
 	    const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />');
 	    placeholder.placeholder = self.settings.placeholder || '';
 	    self.control.append(placeholder);
+	    /**
+	     * TomSelect renders a custom control with a focusable <input class="items-placeholder">.
+	     * The source <select>'s aria-label is not automatically propagated to that input,
+	     * which triggers "Missing form label" accessibility warnings.
+	     * This helper copies the label from the <select> onto the generated input.
+	     */
+	    const label = (_self$input = self.input) == null ? void 0 : _self$input.getAttribute('aria-label');
+	    if (!label) return;
+	    placeholder.setAttribute('aria-label', label);
 	  });
 	  self.on('initialize', () => {
 	    // set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input

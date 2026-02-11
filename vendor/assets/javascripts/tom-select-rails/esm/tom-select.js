@@ -167,6 +167,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent) {
             setAttr(dropdown_content, { 'aria-labelledby': label_id });
         }
         wrapper.style.width = input.style.width;
+        wrapper.style.minWidth = input.style.minWidth;
+        wrapper.style.maxWidth = input.style.maxWidth;
         if (self.plugins.names.length) {
             const classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
             addClasses([wrapper, dropdown], classes_plugins);
@@ -392,7 +394,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent) {
      */
     sync(get_settings = true) {
         const self = this;
-        const settings = get_settings ? getSettings(self.input, { delimiter: self.settings.delimiter }) : self.settings;
+        const settings = get_settings ? getSettings(self.input, { delimiter: self.settings.delimiter, allowEmptyOption: self.settings.allowEmptyOption }) : self.settings;
         self.setupOptions(settings.options, settings.optgroups);
         self.setValue(settings.items || [], true); // silent prevents recursion
         self.lastQuery = null; // so updated options will be displayed in dropdown
@@ -691,6 +693,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent) {
                 if (self.settings.closeAfterSelect) {
                     self.close();
                 }
+                else if (self.settings.clearAfterSelect) {
+                    self.setTextboxValue();
+                }
             });
         }
         else {
@@ -700,6 +705,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent) {
                 self.addItem(value);
                 if (self.settings.closeAfterSelect) {
                     self.close();
+                }
+                else if (self.settings.clearAfterSelect) {
+                    self.setTextboxValue();
                 }
                 if (!self.settings.hideSelected && evt.type && /click/.test(evt.type)) {
                     self.setActiveOption(option);
@@ -1107,6 +1115,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent) {
         // perform search
         if (query !== self.lastQuery) {
             self.lastQuery = query;
+            // temp fix for https://github.com/orchidjs/tom-select/issues/987
+            // UI crashed when more than 30 same chars in a row, prevent search and return empt result
+            if (/(.)\1{15,}/.test(query)) {
+                query = '';
+            }
             result = self.sifter.search(query, Object.assign(options, { score: calculateScore }));
             self.currentResults = result;
         }
@@ -1634,6 +1647,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent) {
                 else if (!self.isPending) {
                     self.positionDropdown();
                 }
+                //remove input value when enabled
+                if (self.settings.clearAfterSelect) {
+                    self.setTextboxValue();
+                }
                 self.trigger('item_add', hashed, item);
                 if (!self.isPending) {
                     self.updateOriginalInput({ silent: silent });
@@ -2003,7 +2020,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent) {
     shouldDelete(items, evt) {
         const values = items.map(item => item.dataset.value);
         // allow the callback to abort
-        if (!values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete(values, evt) === false)) {
+        if (!values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete.call(this, values, evt) === false)) {
             return false;
         }
         return true;

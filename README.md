@@ -12,10 +12,12 @@ $ bundle add tom-select-rails
 
 ## Usage
 
-Import Tom Select styles in your Sass manifest:
-
 ```scss
 @import "tom-select-rails/scss/tom-select";
+```
+
+```js
+import TomSelect from "tom-select";
 ```
 
 ## License

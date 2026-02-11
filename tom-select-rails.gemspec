@@ -1,11 +1,9 @@
-# frozen_string_literal: true
-
 require_relative "lib/tom-select-rails/version"
 
 Gem::Specification.new do |spec|
   spec.authors = ["Tyson Gach"]
   spec.email = "tyson@tysongach.com"
-  spec.files = Dir["{lib,vendor}/**/*", "LICENSE.txt", "Rakefile", "README.md"]
+  spec.files = Dir["{config,lib,vendor}/**/*", "LICENSE.txt", "Rakefile", "README.md"]
   spec.homepage = "https://github.com/tysongach/tom-select-rails"
   spec.license = "MIT"
   spec.metadata = {

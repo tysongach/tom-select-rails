@@ -36,6 +36,7 @@ function default_1(userOptions) {
             if (self.settings.mode === 'single' && self.settings.allowEmptyOption) {
                 self.addItem('');
             }
+            self.refreshOptions(false);
             evt.preventDefault();
             evt.stopPropagation();
         });

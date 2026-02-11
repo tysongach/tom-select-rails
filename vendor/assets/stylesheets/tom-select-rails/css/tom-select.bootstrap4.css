@@ -2,7 +2,7 @@
  * Tom Select Bootstrap 4
  */
 /**
- * tom-select.css (v2.4.5)
+ * tom-select.css (v2.5.1)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -508,6 +508,14 @@
   border-color: rgb(127.5, 189, 255);
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.ts-control input::-ms-input-placeholder {
+  color: #a7aeb8;
+  opacity: 1;
+}
+.ts-control input::placeholder {
+  color: #a7aeb8;
+  opacity: 1;
 }
 
 .is-invalid .ts-control,

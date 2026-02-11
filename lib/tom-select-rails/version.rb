@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module TomSelect
-  VERSION = "2.4.5"
+  VERSION = "2.5.1"
 end
